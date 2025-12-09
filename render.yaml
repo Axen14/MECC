@@ -13,6 +13,9 @@ services:
       gunicorn mcoop_db.wsgi:application --chdir misty/MPSUUU-COOP/mpsucoop/mcoop_db --bind 0.0.0.0:$PORT
     autoDeploy: true
     healthCheckPath: /health
+    postDeployCommand: |
+      python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py migrate
+      python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py createsuperuser --noinput 
     envVars:
       - key: SECRET_KEY
         generateValue: true
@@ -24,6 +27,12 @@ services:
         fromDatabase:
           name: mpsucoop-db
           property: connectionString
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: admin
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: admin@example.com
+      - key: DJANGO_SUPERUSER_PASSWORD
+        value: yourpassword
 
 databases:
   - name: mpsucoop-db
