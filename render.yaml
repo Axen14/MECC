@@ -14,8 +14,7 @@ services:
     autoDeploy: true
     healthCheckPath: /health
     postDeployCommand: |
-      python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py migrate
-      python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py createsuperuser --noinput
+      python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py migrate;
       python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py shell -c "from django.contrib.auth import get_user_model; U=get_user_model(); u,created=U.objects.get_or_create(username='admin', defaults={'email':'admin@example.com'}); u.set_password('ChangeMeStrongPassword123!'); u.is_superuser=True; u.is_staff=True; u.save()"
     envVars:
       - key: SECRET_KEY
@@ -24,16 +23,25 @@ services:
         value: "False"
       - key: ALLOWED_HOSTS
         value: mpsucoop-backend.onrender.com,localhost,127.0.0.1
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://mpsucoop-backend.onrender.com,https://localhost,https://127.0.0.1
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://mpsucoop-backend.onrender.com,http://localhost:3000,http://127.0.0.1:3000
       - key: DATABASE_URL
         fromDatabase:
           name: mpsucoop-db
           property: connectionString
-      - key: DJANGO_SUPERUSER_USERNAME
-        value: admin
-      - key: DJANGO_SUPERUSER_EMAIL
-        value: admin@example.com
-      - key: DJANGO_SUPERUSER_PASSWORD
-        value: ChangeMeStrongPassword123!
+      # One-time superuser creation (fill, deploy once, then remove)
+      # - key: DJANGO_SUPERUSER_USERNAME
+      #   value: admin
+      # - key: DJANGO_SUPERUSER_EMAIL
+      #   value: admin@example.com
+      # - key: DJANGO_SUPERUSER_PASSWORD
+      #   value: ChangeMeStrongPassword123!
+      # After setting above envs, temporarily set:
+      # postDeployCommand: |
+      #   python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py migrate;
+      #   python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py createsuperuser --noinput
 
 databases:
   - name: mpsucoop-db
