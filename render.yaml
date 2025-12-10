@@ -13,9 +13,10 @@ services:
       gunicorn mcoop_db.wsgi:application --chdir misty/MPSUUU-COOP/mpsucoop/mcoop_db --bind 0.0.0.0:$PORT --log-level debug --access-logfile - --error-logfile -
     autoDeploy: true
     healthCheckPath: /health
+    preDeployCommand: |
+      python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py migrate
     postDeployCommand: |
-      python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py migrate;
-      python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py shell -c "from django.contrib.auth import get_user_model; U=get_user_model(); u,created=U.objects.get_or_create(username='admin', defaults={'email':'admin@example.com'}); u.set_password('ChangeMeStrongPassword123!'); u.is_superuser=True; u.is_staff=True; u.save()"
+      python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py shell -c "from django.contrib.auth import get_user_model; U=get_user_model(); u,created=U.objects.get_or_create(username='admin', defaults={'email':'admin@example.com'}); u.set_password('ChangeMeStrongPassword123!'); u.is_superuser=True; u.is_staff=True; u.save(); print('✓ Superuser ready')"
     envVars:
       - key: SECRET_KEY
         generateValue: true
@@ -24,24 +25,13 @@ services:
       - key: ALLOWED_HOSTS
         value: mpsucoop-backend.onrender.com,localhost,127.0.0.1
       - key: CSRF_TRUSTED_ORIGINS
-        value: https://mpsucoop-backend.onrender.com,https://localhost,https://127.0.0.1
+        value: https://mpsucoop-backend.onrender.com
       - key: CORS_ALLOWED_ORIGINS
-        value: https://mpsucoop-backend.onrender.com,http://localhost:3000,http://127.0.0.1:3000
+        value: https://mpsucoop-backend.onrender.com,http://localhost:3000
       - key: DATABASE_URL
         fromDatabase:
           name: mpsucoop-db
           property: connectionString
-      # One-time superuser creation (fill, deploy once, then remove)
-      # - key: DJANGO_SUPERUSER_USERNAME
-      #   value: admin
-      # - key: DJANGO_SUPERUSER_EMAIL
-      #   value: admin@example.com
-      # - key: DJANGO_SUPERUSER_PASSWORD
-      #   value: ChangeMeStrongPassword123!
-      # After setting above envs, temporarily set:
-      # postDeployCommand: |
-      #   python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py migrate;
-      #   python misty/MPSUUU-COOP/mpsucoop/mcoop_db/manage.py createsuperuser --noinput
 
 databases:
   - name: mpsucoop-db
