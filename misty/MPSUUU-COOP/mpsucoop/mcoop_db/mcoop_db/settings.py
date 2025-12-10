@@ -224,6 +224,39 @@ REST_FRAMEWORK = {
     # ),
 }
 AUTHENTICATION_BACKENDS = [
-    'mcoop_app.authentication.AccountNumberAuthenticationBackend',  
-    'django.contrib.auth.backends.ModelBackend',  
+    'django.contrib.auth.backends.ModelBackend',
+    'mcoop_app.authentication.AccountNumberAuthenticationBackend',
 ]
+
+# Log errors to console so Render captures them
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '%(levelname)s %(name)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
