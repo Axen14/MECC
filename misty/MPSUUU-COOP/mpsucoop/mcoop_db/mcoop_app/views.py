@@ -2142,7 +2142,9 @@ def process_payment_view(request, pk):
             return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
-#Thursday
+#credit button fix
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def mark_as_paid(request, id):
     """Standalone view for marking payment schedule as paid"""
     if request.method != "POST":
