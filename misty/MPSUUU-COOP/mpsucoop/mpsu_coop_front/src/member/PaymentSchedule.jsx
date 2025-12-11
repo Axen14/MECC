@@ -24,7 +24,7 @@ const PaymentSchedule = () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
         const response = await fetch(
-          `http://localhost:8000/api/payment-schedules/${control_number}`,
+          `${process.env.REACT_APP_API_URL}/api/payment-schedules/${control_number}`,
           {
             method: "GET",
             headers: {

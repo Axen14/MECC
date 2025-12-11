@@ -24,8 +24,8 @@ function Members() {
     const fetchMembers = async () => {
       try {
         const [membersRes, archivesRes] = await Promise.all([
-          axios.get('http://localhost:8000/members/'),
-          axios.get('http://localhost:8000/archives/?archive_type=Member'),
+          axios.get('${process.env.REACT_APP_API_URL}/members/'),
+          axios.get('${process.env.REACT_APP_API_URL}/archives/?archive_type=Member'),
         ]);
 
         const archivedMemberIds = new Set(
@@ -328,7 +328,7 @@ const validateInput = (field, value) => {
 
   const confirmDeleteMember = async () => {
     try {
-      await axios.delete(`http://localhost:8000/members/${memberToDelete.memId}/`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/members/${memberToDelete.memId}/`);
       setMembers(members.filter(member => member.memId !== memberToDelete.memId));
       setShowDeleteModal(false);
       setMemberToDelete(null);
@@ -363,8 +363,8 @@ const validateInput = (field, value) => {
     try {
       // recently lang
       const payload = { ...newMember, employment_status: newMember.employment_status || 'Outsider' };
-      const response = await axios.post('http://localhost:8000/members/', payload);
-      // const response = await axios.post('http://localhost:8000/members/', newMember);
+      const response = await axios.post('${process.env.REACT_APP_API_URL}/members/', payload);
+      // const response = await axios.post('${process.env.REACT_APP_API_URL}/members/', newMember);
       // recently lang ends
       setMembers([...members, response.data]);
       setNewMember({});
@@ -411,11 +411,11 @@ const validateInput = (field, value) => {
       // recently lang
       const payload = { ...editingMember, employment_status: editingMember.employment_status || 'Outsider' };
       const response = await axios.put(
-        `http://localhost:8000/members/${editingMember.memId}/`,
+        `${process.env.REACT_APP_API_URL}/members/${editingMember.memId}/`,
         payload
       );
       // const response = await axios.put(
-      //   `http://localhost:8000/members/${editingMember.memId}/`,
+      //   `${process.env.REACT_APP_API_URL}/members/${editingMember.memId}/`,
       //   editingMember
       // );
       // recently lang ends

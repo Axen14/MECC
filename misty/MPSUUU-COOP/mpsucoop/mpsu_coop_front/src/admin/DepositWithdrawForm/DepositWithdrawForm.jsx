@@ -275,8 +275,8 @@ function DepositWithdrawForm({
 
       const endpoint =
         actionType === 'deposit'
-          ? `http://localhost:8000/accounts/${account.account_number}/deposit/`
-          : `http://localhost:8000/accounts/${account.account_number}/withdraw/`;
+          ? `${process.env.REACT_APP_API_URL}/accounts/${account.account_number}/deposit/`
+          : `${process.env.REACT_APP_API_URL}/accounts/${account.account_number}/withdraw/`;
 
       const payload =
         actionType === 'deposit'
@@ -318,7 +318,7 @@ function DepositWithdrawForm({
       // For full withdrawal, mark account as inactive
       if (isFullWithdrawal) {
         await axios.patch(
-          `http://localhost:8000/accounts/${account.account_number}/`,
+          `${process.env.REACT_APP_API_URL}/accounts/${account.account_number}/`,
           { status: 'inactive' }
         );
         setIsInactive(true);

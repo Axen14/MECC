@@ -132,7 +132,7 @@ const LoanManager = () => {
         });
     };
 
-    const BASE_URL = 'http://localhost:8000';
+    const BASE_URL = '${process.env.REACT_APP_API_URL}';
 
    
     const safeText = (value) => {
@@ -1532,7 +1532,7 @@ const LoanManager = () => {
     useEffect(() => {
         const fetchMembers = async () => {
             try {
-                const response = await axios.get("http://localhost:8000/members/");
+                const response = await axios.get("${process.env.REACT_APP_API_URL}/members/");
                 setAccountList(response.data);
             } catch (error) {
                 console.error("Error fetching members:", error);

@@ -57,7 +57,7 @@ function Accounts() {
   }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/archives/?archive_type=Account')
+    axios.get('${process.env.REACT_APP_API_URL}/archives/?archive_type=Account')
       .then(response => setArchivedAccounts(response.data || []))
       .catch(error => console.error('Error fetching archived accounts:', error));
   }, [refreshArchives]);
@@ -65,7 +65,7 @@ function Accounts() {
    // OR number
   const fetchAccounts = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/accounts/');
+      const response = await axios.get('${process.env.REACT_APP_API_URL}/accounts/');
       const apiAccounts = Array.isArray(response.data) ? response.data : [];
 
       setAccounts(prev => {
@@ -95,7 +95,7 @@ function Accounts() {
 
   const fetchLoans = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/loans/');
+      const response = await axios.get('${process.env.REACT_APP_API_URL}/loans/');
       setAccountLoans(response.data);
     } catch (err) {
       console.error('Error fetching loans:', err.response || err);
@@ -107,7 +107,7 @@ function Accounts() {
       const token = localStorage.getItem('accessToken');
       
       const response = await axios.get(
-        `http://localhost:8000/api/account/${accountNumber}/transactions/`,
+        `${process.env.REACT_APP_API_URL}/api/account/${accountNumber}/transactions/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -137,7 +137,7 @@ function Accounts() {
       const token = localStorage.getItem('accessToken');
       
       const response = await axios.get(
-        `http://localhost:8000/api/account/${accountNumber}/transactions/`,
+        `${process.env.REACT_APP_API_URL}/api/account/${accountNumber}/transactions/`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -254,8 +254,8 @@ function Accounts() {
         account_number: account.account_number,
       };
 
-      const accountArchiveResponse = await axios.post('http://localhost:8000/archives/', archivePayload);
-      await axios.delete(`http://localhost:8000/accounts/${account.account_number}/`);
+      const accountArchiveResponse = await axios.post('${process.env.REACT_APP_API_URL}/archives/', archivePayload);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/accounts/${account.account_number}/`);
       console.log(`✅ Account ${account.account_number} archived.`);
 
       const holder = account.account_holder;
@@ -268,12 +268,12 @@ function Accounts() {
           console.warn(`⚠️ Could not extract member ID for account ${account.account_number}`);
         } else {
           try {
-            const memberDetails = await axios.get(`http://localhost:8000/members/${memberId}/`);
+            const memberDetails = await axios.get(`${process.env.REACT_APP_API_URL}/members/${memberId}/`);
             const memberArchivePayload = {
               archive_type: 'Member',
               archived_data: memberDetails.data,
             };
-            await axios.post('http://localhost:8000/archives/', memberArchivePayload);
+            await axios.post('${process.env.REACT_APP_API_URL}/archives/', memberArchivePayload);
             console.log(`👤 Member ${memberId} archived.`);
           } catch (memberErr) {
             console.error(`❌ Failed to fetch/archive member ${memberId}:`, memberErr.response?.data || memberErr.message);

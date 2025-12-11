@@ -54,8 +54,8 @@ const Loans = () => {
 
     try {
       const url = filter
-        ? `http://localhost:8000/api/loans/by_account?account_number=${accountNumber}&filter=${filter}`
-        : `http://localhost:8000/api/loans/by_account?account_number=${accountNumber}`;
+        ? `${process.env.REACT_APP_API_URL}/api/loans/by_account?account_number=${accountNumber}&filter=${filter}`
+        : `${process.env.REACT_APP_API_URL}/api/loans/by_account?account_number=${accountNumber}`;
 
       const accessToken = localStorage.getItem("accessToken");
       const response = await fetch(url, {

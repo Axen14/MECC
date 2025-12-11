@@ -25,7 +25,7 @@ const Ledger = () => {
         }
 
         const response = await axios.get(
-          `http://localhost:8000/api/account/${accountNumber}/transactions/`,
+          `${process.env.REACT_APP_API_URL}/api/account/${accountNumber}/transactions/`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

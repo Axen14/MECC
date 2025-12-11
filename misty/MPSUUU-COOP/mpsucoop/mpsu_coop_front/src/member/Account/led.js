@@ -56,7 +56,7 @@ const Ledger = () => {
     
             // Fetch transactions
             const response = await axios.get(
-              `http://localhost:8000/api/account/${accountNumber}/transactions/`,
+              `${process.env.REACT_APP_API_URL}/api/account/${accountNumber}/transactions/`,
               {
                 headers: { Authorization: `Bearer ${token}` },
               }
@@ -74,7 +74,7 @@ const Ledger = () => {
             if (!hasInitialDepositTransaction) {
               try {
                 const memberResponse = await axios.get(
-                  `http://localhost:8000/members/?accountN=${accountNumber}`,
+                  `${process.env.REACT_APP_API_URL}/members/?accountN=${accountNumber}`,
                   {
                     headers: { Authorization: `Bearer ${token}` },
                   }

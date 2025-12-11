@@ -14,7 +14,7 @@ const AdminMemberManagement = () => {
 
     // Fetch registered members only
 useEffect(() => {
-    axios.get(`http://localhost:8000/members/?registered_only=true`, {
+    axios.get(`${process.env.REACT_APP_API_URL}/members/?registered_only=true`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
         }
@@ -47,7 +47,7 @@ useEffect(() => {
     };
 
     const handle_update_password = (account_number, email, new_password, username) => {
-        return axios.put("http://localhost:8000/update-user-password/", {
+        return axios.put("${process.env.REACT_APP_API_URL}/update-user-password/", {
             account_number: account_number,
             email: email,
             new_password: new_password,
@@ -117,7 +117,7 @@ const handleSubmit = (e, update_member) => {
             const updatedMember = { ...update_member, email: formData.email };
             
             return axios.put(
-                `http://localhost:8000/members/${memberId}/`, 
+                `${process.env.REACT_APP_API_URL}/members/${memberId}/`, 
                 updatedMember, 
                 {
                     headers: {

@@ -72,7 +72,7 @@
 //     const credentials = { username, password };
 
 //     try {
-//       const response = await fetch('http://localhost:8000/login/member/', {
+//       const response = await fetch('${process.env.REACT_APP_API_URL}/login/member/', {
 //         method: 'POST',
 //         headers: {
 //           'Content-Type': 'application/json',
@@ -107,7 +107,7 @@
 //     const credentials = { username, password };
 
 //     try {
-//       const response = await fetch('http://localhost:8000/login/admin/', {
+//       const response = await fetch('${process.env.REACT_APP_API_URL}/login/admin/', {
 //         method: 'POST',
 //         headers: {
 //           'Content-Type': 'application/json',
@@ -139,7 +139,7 @@
 //     const signupData = { account_number, email, password };
 
 //     try {
-//       const response = await fetch('http://localhost:8000/register/', {
+//       const response = await fetch('${process.env.REACT_APP_API_URL}/register/', {
 //         method: 'POST',
 //         headers: {
 //           'Content-Type': 'application/json',

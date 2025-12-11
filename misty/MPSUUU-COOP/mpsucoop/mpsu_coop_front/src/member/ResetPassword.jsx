@@ -12,7 +12,7 @@ function ResetPassword() {
     const newPassword = e.target.password.value;
 
     try {
-      const response = await fetch(`http://localhost:8000/reset-password/${uid}/${token}/`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/reset-password/${uid}/${token}/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password: newPassword }),

@@ -870,22 +870,22 @@ const filteredEmergency = schedulesWithDetails.filter((schedule) => {
           return;
         }
 
-        const memberResponse = await axios.get('http://localhost:8000/api/member/profile/', {
+        const memberResponse = await axios.get('${process.env.REACT_APP_API_URL}/api/member/profile/', {
           params: { account_number: acc_number },
           headers: { Authorization: `Bearer ${token}` },
         });
 
         const accountNumber = memberResponse.data.accountN;
 
-        const loanResponse = await axios.get(`http://localhost:8000/loans/?account_number=${accountNumber}`, {
+        const loanResponse = await axios.get(`${process.env.REACT_APP_API_URL}/loans/?account_number=${accountNumber}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const paymentScheduleResponse = await axios.get(`http://localhost:8000/payment-schedules/?account_number=${accountNumber}`, {
+        const paymentScheduleResponse = await axios.get(`${process.env.REACT_APP_API_URL}/payment-schedules/?account_number=${accountNumber}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const paymentResponse = await axios.get(`http://localhost:8000/payments/?account_number=${accountNumber}`, {
+        const paymentResponse = await axios.get(`${process.env.REACT_APP_API_URL}/payments/?account_number=${accountNumber}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -900,7 +900,7 @@ const filteredEmergency = schedulesWithDetails.filter((schedule) => {
 
         // Fetch archived payments for advance-only views
         try {
-          const archResp = await axios.get(`http://localhost:8000/archived-payment-records/?account_number=${accountNumber}`,
+          const archResp = await axios.get(`${process.env.REACT_APP_API_URL}/archived-payment-records/?account_number=${accountNumber}`,
             { headers: { Authorization: `Bearer ${token}` } }
           );
           setArchivedPayments(Array.isArray(archResp.data) ? archResp.data : []);
@@ -927,7 +927,7 @@ const filteredEmergency = schedulesWithDetails.filter((schedule) => {
       try {
         const details = await Promise.all(
           controlNumbers.map(async (control_number) => {
-            const response = await axios.get(`http://localhost:8000/api/loans/details?control_number=${control_number}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/loans/details?control_number=${control_number}`, {
               headers: { Authorization: `Bearer ${token}` },
             });
             return response.data;
