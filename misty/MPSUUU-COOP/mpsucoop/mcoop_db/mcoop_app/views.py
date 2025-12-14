@@ -620,6 +620,59 @@ def get_account_sharecapital(request, account_number):
         return JsonResponse({'error': 'Account not found'}, status=404)
 
 
+@api_view(['GET'])
+def detailed_loan_info_view(request, control_number):
+    """Get loan with fresh yearly recalculation data by control_number"""
+    try:
+        from django.db import connection
+        
+        # Force any pending database transactions to complete
+        connection.cursor().execute('SELECT 1')
+        
+        # Get the loan by control_number (not primary key)
+        loan = Loan.objects.select_related('account', 'account__account_holder').prefetch_related('paymentschedule_set', 'loanannualrecalculation_set').get(control_number=control_number)
+        loan.refresh_from_db()
+        
+        # Serialize with related data
+        serializer = LoanSerializer(loan)
+        data = serializer.data
+        
+        # Explicitly add fresh yearly recalculations
+        recalculations = LoanYearlyRecalculation.objects.filter(loan=loan).order_by('year')
+        print(f"   Found {recalculations.count()} recalculations for this loan")
+    
+        # Log each recalculation to verify uniqueness
+        for recalc in recalculations:
+            print(f"     - Year {recalc.year}: prev_bal={recalc.previous_balance}, outstanding={recalc.total_fees_due}")
+            
+        data['yearly_recalculations'] = [
+            {
+                'year': r.year,
+                'service_fee': str(r.service_fee),
+                'previous_balance': str(r.previous_balance),
+                'interest_amount': str(r.interest_amount),
+                'admincost': str(r.admincost),
+                'cisp': str(r.cisp),
+                'notarial': str(r.notarial),
+                'total_fees_due': str(r.total_fees_due),
+                'new_bimonthly_amortization': str(r.new_bimonthly_amortization),
+                'fees_paid': r.fees_paid,
+                'fees_paid_date': r.fees_paid_date.isoformat() if r.fees_paid_date else None,
+                'fees_or_number': r.fees_or_number,
+                'recalculated_at': r.recalculated_at.isoformat(),
+                'loan_control_number': str(loan.control_number)
+            }
+            for r in recalculations
+        ]
+        print(f"🔍 Loan {loan.control_number} has {len(data['yearly_recalculations'])} recalculations")
+        return Response(data)
+    except Loan.DoesNotExist:
+        return Response({'error': f'Loan {control_number} not found'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        print(f"❌ Error in detailed_loan_info_view: {str(e)}")
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 class LoanViewSet(viewsets.ModelViewSet):
     serializer_class = LoanSerializer
     permission_classes = [AllowAny]

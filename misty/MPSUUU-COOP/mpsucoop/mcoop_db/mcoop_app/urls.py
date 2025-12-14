@@ -11,7 +11,7 @@ from .views import (AdminProfileView,
      update_breakdown,revert_to_original_schedule,
      UserListView, ResetPasswordView,
      ActiveLoansByAccountView,RegisterMemberView, AccountTransactionView, MemberLoginView,LogoutView, MemberProfileView, MemberLoanListView, TokenObtainPairView, SystemSettingsView,
-     payment_schedules_by_loan, AccountDetailView, get_payments, MemberPaymentsView,PaymentListByScheduleView, PaymentsByAccountView, ArchiveViewSet,loan_summary, LogActionAPIView, GetAuditLogsAPIView,process_payment_view,check_loan_eligibility,check_or_availability, PaymentEventView
+     payment_schedules_by_loan, AccountDetailView, get_payments, MemberPaymentsView,PaymentListByScheduleView, PaymentsByAccountView, ArchiveViewSet,loan_summary, LogActionAPIView, GetAuditLogsAPIView,process_payment_view,check_loan_eligibility,check_or_availability, PaymentEventView, detailed_loan_info_view
 )
 from rest_framework_simplejwt import views as jwt_views
 import logging
@@ -90,8 +90,8 @@ urlpatterns = [
     path('payment-history/<str:account_number>/', views.get_payment_history, name='get_payment_history'),
     #Thursday
     path('api/check-loan-eligibility/<str:account_number>/', check_loan_eligibility, name='check_loan_eligibility'),
-    path('loans/<str:pk>/detailed_loan_info/', 
-         views.LoanViewSet.as_view({'get': 'detailed_loan_info'}), 
+    path('loans/<str:control_number>/detailed_loan_info/', 
+         views.detailed_loan_info_view, 
          name='loan-detailed-info'),
     path('check-or-availability/<str:account_number>/<str:or_number>/', 
          views.check_or_availability,
