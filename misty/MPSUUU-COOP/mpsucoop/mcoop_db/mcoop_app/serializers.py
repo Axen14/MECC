@@ -462,6 +462,36 @@ class LoanSerializer(serializers.ModelSerializer):
                 'eligible': False,
                 'error': str(e)
             }
+    def get_exposure_headroom(self, obj):
+        try:
+            # Simple headroom estimation: allow up to 2x share capital minus outstanding across all loans on the account
+            account = getattr(obj, 'account', None)
+            share_cap = Decimal('0.00')
+            if account and hasattr(account, 'shareCapital') and account.shareCapital:
+                share_cap = Decimal(account.shareCapital)
+
+            # Aggregate outstanding across loans for this account
+            loans = obj.__class__.objects.filter(account=account)
+            outstanding_sum = sum([(l.outstanding_balance or Decimal('0.00')) for l in loans]) if account else Decimal('0.00')
+
+            exposure_cap = share_cap * Decimal('2.00') if share_cap > 0 else None
+            if exposure_cap is None:
+                return {
+                    'headroom': None,
+                    'note': 'No share capital; cannot compute cap.'
+                }
+
+            headroom = exposure_cap - Decimal(outstanding_sum)
+            return {
+                'headroom': str(headroom.quantize(Decimal('0.01'))),
+                'cap': str(exposure_cap.quantize(Decimal('0.01'))),
+                'outstanding_total': str(Decimal(outstanding_sum).quantize(Decimal('0.01')))
+            }
+        except Exception as e:
+            return {
+                'headroom': None,
+                'error': str(e)
+            }
                 # verified_recalcs = []
                 # for r in recalcs:
                 #     if r.loan.control_number == obj.control_number:
