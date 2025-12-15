@@ -50,6 +50,21 @@
   margin-top: 20px;
 }
 
+/* Hide member info and fees on mobile */
+@media (max-width: 767px) {
+  .member-info-card {
+    display: none;
+  }
+
+  .loan-fees-container {
+    display: none;
+  }
+
+  .loan-buttons-container {
+    display: none;
+  }
+}
+
 /* Member Info Card */
 .member-info-card {
   box-shadow: 0px 4px 8px rgba(161, 161, 161, 0.5);
@@ -433,6 +448,35 @@
   overflow-x: auto;
   scrollbar-width: thin;
   -ms-overflow-style: auto;
+}
+
+/* Mobile table adjustments */
+@media (max-width: 767px) {
+  .payment-table-wrapper {
+    max-height: 300px;
+  }
+
+  .payment-table-scroll {
+    max-height: 250px;
+  }
+
+  .payment-table {
+    font-size: 11px;
+  }
+
+  .payment-table th {
+    font-size: 10px;
+    padding: 6px 4px;
+  }
+
+  .payment-table td {
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+
+  .payment-table-title {
+    font-size: 12px;
+  }
 }
 
 .payment-table-scroll::-webkit-scrollbar {
