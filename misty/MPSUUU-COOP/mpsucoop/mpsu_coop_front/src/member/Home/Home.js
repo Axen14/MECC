@@ -1752,7 +1752,7 @@ const filteredEmergency = schedulesWithDetails.filter((schedule) => {
                         <th style={{ padding: '12px', textAlign: 'left', fontWeight: '700', fontSize: '12px', borderRight: '1px solid #9b9b9bff' }}>AMOUNT</th>
                         <th style={{ padding: '12px', textAlign: 'left', fontWeight: '700', fontSize: '12px', borderRight: '1px solid #9b9b9bff' }}>DATE PAID</th>
                         <th style={{ padding: '12px', textAlign: 'left', fontWeight: '700', fontSize: '12px', borderRight: '1px solid #9b9b9bff' }}>OR NO.</th>
-                        <th style={{ padding: '12px', textAlign: 'left', fontWeight: '700', fontSize: '12px' }}>STATUS</th>
+                        {/* <th style={{ padding: '12px', textAlign: 'left', fontWeight: '700', fontSize: '12px' }}>STATUS</th> */}
                       </tr>
                     </thead>
                     <tbody>
@@ -1815,7 +1815,7 @@ const filteredEmergency = schedulesWithDetails.filter((schedule) => {
                         <th style={{ padding: '12px', textAlign: 'left', fontWeight: '700', fontSize: '12px', borderRight: '1px solid #9b9b9bff' }}>AMOUNT</th>
                         <th style={{ padding: '12px', textAlign: 'left', fontWeight: '700', fontSize: '12px', borderRight: '1px solid #9b9b9bff' }}>DATE PAID</th>
                         <th style={{ padding: '12px', textAlign: 'left', fontWeight: '700', fontSize: '12px', borderRight: '1px solid #9b9b9bff' }}>OR NO.</th>
-                        <th style={{ padding: '12px', textAlign: 'left', fontWeight: '700', fontSize: '12px' }}>STATUS</th>
+                        {/* <th style={{ padding: '12px', textAlign: 'left', fontWeight: '700', fontSize: '12px' }}>STATUS</th> */}
                       </tr>
                     </thead>
                     <tbody>
