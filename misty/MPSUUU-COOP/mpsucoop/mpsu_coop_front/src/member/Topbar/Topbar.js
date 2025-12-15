@@ -120,19 +120,27 @@ const Topbar = () => {
             <Link 
               to="/Home" 
               className={location.pathname === '/Home' ? 'active' : ''}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
               <FontAwesomeIcon icon={faTachometerAlt} />
               <span>Home</span>
             </Link>
           </li>
           <li>
-            <Link 
-              to="/payments" 
-              className={location.pathname === '/payments' ? 'active' : ''}
+            <a 
+              href="#payment-section"
+              className="payment-nav-link"
+              onClick={(e) => {
+                e.preventDefault();
+                const paymentSection = document.getElementById('payment-section');
+                if (paymentSection) {
+                  paymentSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+              }}
             >
               <FontAwesomeIcon icon={faUser} />
               <span>Payments</span>
-            </Link>
+            </a>
           </li>
           <li>
             <div 

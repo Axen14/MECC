@@ -79,6 +79,20 @@
   .loan-buttons-container {
     display: none;
   }
+
+  .loan-details-card {
+    display: none;
+  }
+
+  #payment-section {
+    margin-top: 20px !important;
+    order: 1;
+  }
+
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+  }
 }
 
 /* Member Info Card */

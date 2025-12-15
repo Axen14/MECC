@@ -275,6 +275,25 @@
   border-bottom: -3px;
 }
 
+.mobile-nav-bar .payment-nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  color: goldenrod;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  gap: 4px;
+}
+
+.mobile-nav-bar .payment-nav-link:hover {
+  background-color: rgba(3, 184, 109, 0.3);
+}
+
 .mobile-nav-bar svg {
   font-size: 24px;
   color: goldenrod;

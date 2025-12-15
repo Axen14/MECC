@@ -1477,7 +1477,7 @@ const filteredEmergency = schedulesWithDetails.filter((schedule) => {
           </div>
 
           {/* PAYMENT TABLES SECTION */}
-          <div style={{ marginTop: '80px' }}>
+          <div id="payment-section" style={{ marginTop: '80px' }}>
             
             {/* Payment Tables with Dropdown Buttons Above */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5px' }}>
