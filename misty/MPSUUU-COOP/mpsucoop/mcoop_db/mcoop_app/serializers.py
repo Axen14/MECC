@@ -257,7 +257,7 @@ class LoanListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Loan
         fields = [
-            'id', 'control_number', 'account', 'loan_amount', 'loan_type', 'status',
+            'control_number', 'account', 'loan_amount', 'loan_type', 'status',
             'loan_date', 'due_date', 'outstanding_balance', 'account_holder',
             'loan_period', 'loan_period_unit', 'net_proceeds', 'service_fee',
             'interest_amount', 'admincost', 'notarial', 'cisp', 'purpose'
