@@ -680,8 +680,19 @@ class LoanViewSet(viewsets.ModelViewSet):
     search_fields = ['control_number', 'account__account_number']
     
     def get_queryset(self):
-        """Optimize queries with select_related and prefetch_related."""
-        return Loan.objects.select_related('account', 'account__account_holder').prefetch_related('paymentschedule_set', 'loanannualrecalculation_set').all()
+        """Optimize queries with select_related and prefetch_related, handle control_number filtering."""
+        queryset = Loan.objects.select_related('account', 'account__account_holder').prefetch_related('paymentschedule_set', 'loanannualrecalculation_set').all()
+        
+        # Filter by control_number if provided
+        control_number = self.request.query_params.get('control_number', None)
+        if control_number:
+            try:
+                uuid.UUID(control_number)
+                queryset = queryset.filter(control_number=control_number)
+            except ValueError:
+                return Loan.objects.none()
+        
+        return queryset
     
     def get_serializer_class(self):
         """Use lightweight serializer for list views, full serializer for detail."""
@@ -751,16 +762,6 @@ class LoanViewSet(viewsets.ModelViewSet):
         loan = self.get_object()
         loan.archive()
         return Response({'status': 'loan archived'})
-
-    def get_queryset(self):
-        control_number = self.request.query_params.get('control_number', None)
-        if control_number:
-            try:
-                uuid.UUID(control_number)
-            except ValueError:
-                return Loan.objects.none()
-            return Loan.objects.filter(control_number=control_number)
-        return super().get_queryset()
 
     @action(detail=False, methods=['post']) 
     def create_loan(self, request):
