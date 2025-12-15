@@ -127,11 +127,11 @@ const Topbar = () => {
           </li>
           <li>
             <Link 
-              to="/infos" 
-              className={location.pathname === '/infos' ? 'active' : ''}
+              to="/payments" 
+              className={location.pathname === '/payments' ? 'active' : ''}
             >
               <FontAwesomeIcon icon={faUser} />
-              <span>Profile</span>
+              <span>Payments</span>
             </Link>
           </li>
           <li>
