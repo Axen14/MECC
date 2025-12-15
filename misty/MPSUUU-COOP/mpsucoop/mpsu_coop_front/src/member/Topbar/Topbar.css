@@ -218,6 +218,73 @@
   background-color: #d9534f;
 }
 
+/* Mobile Navigation Bar - Below Topbar */
+.mobile-nav-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: #0D5D24;
+  border-top: 2px solid goldenrod;
+  z-index: 999;
+}
+
+.mobile-nav-bar ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-nav-bar li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+}
+
+.mobile-nav-bar a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  gap: 4px;
+  transition: all 0.3s ease;
+  width: 100%;
+  height: 100%;
+}
+
+.mobile-nav-bar a:hover {
+  background-color: #03b86d;
+}
+
+.mobile-nav-bar a.active {
+  background-color: #03b86d;
+  border-top: 3px solid goldenrod;
+  border-bottom: -3px;
+}
+
+.mobile-nav-bar svg {
+  font-size: 24px;
+  color: goldenrod;
+}
+
+.mobile-nav-bar span {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: white;
+}
+
 /* Animations */
 @keyframes slideDown {
   from {
@@ -284,16 +351,12 @@
   }
 
   .nav-Topbar {
-    flex-direction: row;
-    gap: 5px;
-    flex-wrap: wrap;
-    justify-content: center;
-    flex: 1;
+    display: none;
   }
 
   .nav-Topbar .nav-item {
     margin-right: 1200px;
-	font-size: 11px;
+    font-size: 11px;
   }
 
   .nav-Topbar .nav-link {
@@ -338,6 +401,16 @@
   .dropdown-item {
     padding: 10px 12px;
     font-size: 11px;
+  }
+
+  /* Show mobile navigation bar */
+  .mobile-nav-bar {
+    display: flex;
+  }
+
+  /* Add bottom padding to page content to account for mobile nav */
+  body {
+    padding-bottom: 60px;
   }
 }
 

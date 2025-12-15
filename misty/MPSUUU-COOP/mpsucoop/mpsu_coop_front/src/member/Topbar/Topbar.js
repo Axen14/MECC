@@ -113,6 +113,39 @@ const Topbar = () => {
         </div>
       </div>
 
+      {/* Mobile Navigation Bar */}
+      <div className="mobile-nav-bar">
+        <ul>
+          <li>
+            <Link 
+              to="/Home" 
+              className={location.pathname === '/Home' ? 'active' : ''}
+            >
+              <FontAwesomeIcon icon={faTachometerAlt} />
+              <span>Home</span>
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/infos" 
+              className={location.pathname === '/infos' ? 'active' : ''}
+            >
+              <FontAwesomeIcon icon={faUser} />
+              <span>Profile</span>
+            </Link>
+          </li>
+          <li>
+            <div 
+              style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px', width: '100%', height: '100%' }}
+              onClick={toggleDropdown}
+            >
+              <FontAwesomeIcon icon={faUserCircle} />
+              <span style={{ fontSize: '10px', fontWeight: '600', textTransform: 'uppercase' }}>Menu</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
       {/* Logout Confirmation Popup */}
       {showLogoutPopup &&
         ReactDOM.createPortal(
