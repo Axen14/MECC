@@ -1002,7 +1002,7 @@ const filteredEmergency = schedulesWithDetails.filter((schedule) => {
           return;
         }
 
-        const memberResponse = await axios.get('${process.env.REACT_APP_API_URL}/api/member/profile/', {
+        const memberResponse = await axios.get(`${process.env.REACT_APP_API_URL}/api/member/profile/`, {
           params: { account_number: acc_number },
           headers: { Authorization: `Bearer ${token}` },
         });
